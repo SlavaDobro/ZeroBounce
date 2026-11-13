@@ -7,14 +7,23 @@ export const site: {
 	locale: string;
 	email: string;
 	phone: string;
+	/** Telegram link and the handle shown on the site. */
 	telegram: string;
+	telegramHandle: string;
+	/**
+	 * Where the contact form sends JSON (POST). Empty: the form explains that sending
+	 * is not connected yet and offers Telegram instead.
+	 */
+	formEndpoint: string;
 } = {
 	name: 'Zero Bounce',
 	url: '',
-	description: 'Комплексный интернет-маркетинг для вашего бизнеса',
+	description: 'Комплексный digital-маркетинг под управлением одной команды',
 	locale: 'ru_RU',
-	// Contacts: fill in before launch. Empty values are not shown on the site.
+	// Contacts: empty values are not shown on the site.
 	email: '',
 	phone: '',
-	telegram: ''
+	telegram: 'https://t.me/zero_bounce',
+	telegramHandle: '@zero_bounce',
+	formEndpoint: ''
 };

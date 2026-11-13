@@ -14,7 +14,7 @@
 
 <a
 	href="#main"
-	class="sr-only z-50 rounded-xl bg-brand px-4 py-2 text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+	class="sr-only z-50 rounded-full bg-ink px-5 py-2.5 text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
 	>Перейти к содержимому</a
 >
 

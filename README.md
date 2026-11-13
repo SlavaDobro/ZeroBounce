@@ -15,63 +15,45 @@ npm run lint       # Prettier + ESLint
 npm run format     # отформатировать код
 ```
 
+## Дизайн
+
+Идея, цвета, шрифты и правила движения описаны в [DESIGN.md](DESIGN.md): сайт оформлен как чертёж интерьера, по которому агентство «проектирует» путь клиента. Главный герой — фиолетовая точка (клиент).
+
 ## Структура
 
 ```
 src/
-  app.html                    шаблон HTML (lang="ru")
   routes/
-    layout.css                Tailwind + фирменные цвета и шрифт (@theme)
-    +layout.svelte            шапка, подвал, «перейти к содержимому»
-    +layout.ts                prerender = true, адреса со слешем в конце
-    +page.svelte              главная (черновик)
-    +error.svelte             страница 404 / ошибки
-    [...path]/                заглушки для страниц без своего дизайна
+    layout.css                токены дизайна (@theme) и базовые стили
+    +page.svelte              главная
+    uslugi/                   каталог услуг по этапам пути клиента
+    [slug]/                   страница услуги — шаблон, данные из services.json
+    filosofiya/ team/ career/ contacts/
+    politika-*/               документы (заглушки до утверждения текстов)
   lib/
-    config/site.ts            название, домен, контакты (пока пустые)
-    config/pages.ts           список всех страниц с адресами + главное меню
+    content/                  весь текст сайта
+      services.json           24 услуги: описание, что входит, этапы, вопросы
+      services.ts             типы и выборки услуг
+      journey.ts              пять этапов пути клиента
+      philosophy.ts           тексты страницы «Подход»
+      company.ts              ценности, ниши, цифры, клиенты, основатель, реквизиты
+      pricing.ts              цены и скидки калькулятора
+    config/site.ts            название, домен, Telegram, адрес обработчика формы
+    config/pages.ts           меню
+    components/               HeroTarget (мишень), JourneyPlan (план пути),
+                              Calculator, DimensionStats, Niches, ContactForm…
     link.ts                   link() — внутренние ссылки с учётом подпапки
-    components/               Header, Footer, Container, Button, Seo
-    assets/                   логотип, фавикон (временный)
-static/
-  .htaccess                   404 и редиректы для Apache
-  robots.txt
 ```
 
-## Фирменный стиль
+## Тексты и цены
 
-Стартовая палитра и шрифт Zero Bounce, доступны как классы Tailwind. Меняются в одном месте — `src/routes/layout.css`:
-
-| Токен                             | Цвет       | Пример класса            |
-| --------------------------------- | ---------- | ------------------------ |
-| `brand`                           | `#6754E9`  | `bg-brand`, `text-brand` |
-| `brand-hover`                     | `#5643D6`  | `hover:bg-brand-hover`   |
-| `brand-soft`                      | `#B0A7EF`  | `bg-brand-soft`          |
-| `brand-tint`                      | `#E9E5FF`  | `bg-brand-tint`          |
-| `accent`                          | `#FFBE11`  | `border-accent`          |
-| `ink`                             | `#000000`  | `text-ink`               |
-| `ink-muted`                       | чёрный 70% | `text-ink-muted`         |
-| `ink-subtle`                      | `#7E7E7E`  | `text-ink-subtle`        |
-| `surface`                         | `#F7F7FA`  | `bg-surface`             |
-| `line`                            | `#E2E2E2`  | `border-line`            |
-| `rounded-card` / `rounded-button` | 18px       | `rounded-card`           |
-
-Шрифт — Manrope (пакет `@fontsource-variable/manrope`, файлы лежат на нашем сервере, без Google Fonts).
-Ширина контента — `max-w-site` (1240px) через компонент `Container`.
+- Тексты взяты со старого сайта (бекап от 13.11.2026), опечатки исправлены.
+- У части услуг на старом сайте стоял чужой текст. Для них написаны короткие черновики — в `services.json` у них `"draft": true`. Их нужно проверить у заказчика: Комплексный маркетинг, GEO / AEO, SMM, Контент и копирайтинг, PR и репутация, Бренд-стратегия, Контроль обработки лидов, Интеграция amoCRM.
+- Цены калькулятора — в `src/lib/content/pricing.ts`.
 
 ## Страницы и адреса
 
-Структура сайта — черновик в `src/lib/config/pages.ts`: услуги, страницы компании и документы. Из этого списка строятся меню, подвал, блок услуг на главной и заглушки. Страницы и адреса можно свободно добавлять, переименовывать и удалять.
-
-Пока у страницы нет своего дизайна, её показывает заглушка `src/routes/[...path]` с `noindex`.
-Чтобы сверстать страницу, создайте папку с её адресом — она автоматически заменит заглушку:
-
-```
-src/routes/contacts/+page.svelte
-src/routes/kontekstnaya-reklama/+page.svelte
-```
-
-В новой странице подключите `<Seo title="…" description="…" />` (без `noindex`).
+Чтобы добавить услугу, допишите её в `src/lib/content/services.json` — страница, меню, подвал и каталог появятся сами. Отдельная страница — папка в `src/routes/` с её адресом и `<Seo title="…" description="…" />`.
 
 ### Внутренние ссылки — только через `link()`
 
@@ -124,9 +106,8 @@ MSYS_NO_PATHCONV=1 BASE_PATH=/ZeroBounce npm run build
 
 ## Что осталось сделать
 
-- Дизайн и тексты главной и страниц услуг.
-- Форма заявки: на статическом сайте нужен обработчик (PHP-скрипт на хостинге или внешний сервис) и защита от спама.
-- Калькулятор услуг.
+- Проверить черновые тексты услуг (`"draft": true`) и цифры на главной (38%, 82%, 10 000+, 100%).
+- Форма заявки: подключить обработчик и указать его адрес в `formEndpoint` (`src/lib/config/site.ts`). Пока форма предлагает написать в Telegram.
+- Тексты политик обработки данных и cookie под новый домен.
 - Яндекс Метрика, Calltouch.
-- Домен и контакты в `src/lib/config/site.ts`, финальный фавикон.
-- sitemap.xml (после покупки домена).
+- Домен, email и телефон в `src/lib/config/site.ts`, финальный фавикон, sitemap.xml.

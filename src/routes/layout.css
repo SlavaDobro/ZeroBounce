@@ -1,48 +1,110 @@
 @import 'tailwindcss';
-@import '@fontsource-variable/manrope';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+@import '@fontsource-variable/unbounded';
+@import '@fontsource-variable/onest';
 
-/*
- * Brand tokens: Zero Bounce colors and font (starting palette, can be changed).
- * Use them as Tailwind classes: bg-brand, text-ink-muted, border-line, rounded-card…
- */
+/* Design tokens: see DESIGN.md. Use as Tailwind classes: bg-paper, text-graphite, border-hatch… */
 @theme {
-	--font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-display: 'Unbounded Variable', ui-sans-serif, system-ui, sans-serif;
+	--font-sans: 'Onest Variable', ui-sans-serif, system-ui, sans-serif;
 
-	--color-brand: #6754e9;
-	--color-brand-hover: #5643d6;
-	--color-brand-soft: #b0a7ef;
-	--color-brand-tint: #e9e5ff;
-	--color-accent: #ffbe11;
-
+	--color-paper: #eef0ec;
+	--color-sheet: #ffffff;
 	--color-ink: #000000;
-	--color-ink-muted: rgb(0 0 0 / 0.7);
-	--color-ink-subtle: #7e7e7e;
-	--color-surface: #f7f7fa;
-	--color-line: #e2e2e2;
+	--color-graphite: #5e625f;
+	--color-hatch: #b9bdb7;
+	--color-visit: #5a3ff0;
 
-	--radius-card: 18px;
-	--radius-button: 18px;
+	--container-site: 1320px;
+	--container-text: 40rem;
 
-	--container-site: 1240px;
+	--text-xs: 0.8125rem;
+	--text-xs--line-height: 1.45;
+	--text-sm: 0.9375rem;
+	--text-sm--line-height: 1.5;
+	--text-base: 1.0625rem;
+	--text-base--line-height: 1.6;
+	--text-lg: 1.25rem;
+	--text-lg--line-height: 1.5;
+	--text-xl: 1.5rem;
+	--text-xl--line-height: 1.35;
+	--text-2xl: 2rem;
+	--text-2xl--line-height: 1.2;
+	--text-3xl: 2.75rem;
+	--text-3xl--line-height: 1.12;
+	--text-4xl: 3.75rem;
+	--text-4xl--line-height: 1.06;
+	--text-5xl: 5.25rem;
+	--text-5xl--line-height: 1;
+
+	--ease-land: cubic-bezier(0.55, 0, 1, 0.45);
+	--ease-settle: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 @layer base {
 	html {
-		@apply bg-white text-ink antialiased;
+		background: var(--color-paper);
+		color: var(--color-ink);
 		font-family: var(--font-sans);
-		scroll-behavior: smooth;
+		font-size: 100%;
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+		scroll-padding-top: 5rem;
 	}
 	body {
-		@apply min-h-dvh font-light;
+		min-height: 100dvh;
+		font-size: var(--text-base);
+		line-height: var(--text-base--line-height);
+	}
+	h1,
+	h2,
+	h3 {
+		font-family: var(--font-display);
+		font-weight: 250;
+		letter-spacing: -0.01em;
+		text-wrap: balance;
+		overflow-wrap: break-word;
+		hyphens: auto;
+	}
+	p {
+		text-wrap: pretty;
+	}
+	::selection {
+		background: var(--color-visit);
+		color: var(--color-sheet);
 	}
 	:focus-visible {
-		@apply outline-2 outline-offset-2 outline-brand;
+		outline: 2px solid var(--color-visit);
+		outline-offset: 3px;
 	}
-	@media (prefers-reduced-motion: reduce) {
+	@media (prefers-reduced-motion: no-preference) {
 		html {
-			scroll-behavior: auto;
+			scroll-behavior: smooth;
 		}
+	}
+}
+
+@layer components {
+	/* Text link: thin underline that thickens on hover, like a pencil stroke. */
+	.link {
+		text-decoration-line: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.22em;
+		text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+		transition:
+			text-decoration-color 0.15s,
+			text-decoration-thickness 0.15s;
+	}
+	.link:hover {
+		text-decoration-color: currentColor;
+		text-decoration-thickness: 2px;
+	}
+	/* 45° drawing hatch. Colour follows `color`. */
+	.hatch {
+		background-image: repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 7px);
+	}
+	/* Long-form text from the old site keeps its line breaks. */
+	.prose-zb {
+		max-width: var(--container-text);
+		white-space: pre-line;
 	}
 }
