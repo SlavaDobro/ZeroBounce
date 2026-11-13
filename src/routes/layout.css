@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/manrope';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+/*
+ * Brand tokens, taken from the current site (Elementor global colors and fonts).
+ * Use them as Tailwind classes: bg-brand, text-ink-muted, border-line, rounded-card…
+ */
+@theme {
+	--font-sans: 'Manrope Variable', ui-sans-serif, system-ui, sans-serif;
+
+	--color-brand: #6754e9;
+	--color-brand-hover: #5643d6;
+	--color-brand-soft: #b0a7ef;
+	--color-brand-tint: #e9e5ff;
+	--color-accent: #ffbe11;
+
+	--color-ink: #000000;
+	--color-ink-muted: rgb(0 0 0 / 0.7);
+	--color-ink-subtle: #7e7e7e;
+	--color-surface: #f7f7fa;
+	--color-line: #e2e2e2;
+
+	--radius-card: 18px;
+	--radius-button: 18px;
+
+	--container-site: 1240px;
+}
+
+@layer base {
+	html {
+		@apply bg-white text-ink antialiased;
+		font-family: var(--font-sans);
+		scroll-behavior: smooth;
+	}
+	body {
+		@apply min-h-dvh font-light;
+	}
+	:focus-visible {
+		@apply outline-2 outline-offset-2 outline-brand;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+}

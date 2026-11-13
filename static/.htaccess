@@ -1,0 +1,5 @@
+# Apache (reg.ru hosting). Copied to the build root as is.
+ErrorDocument 404 /404.html
+
+# Old WordPress addresses that change on the new site go here, for example:
+# Redirect 301 /old-page/ /new-page/
