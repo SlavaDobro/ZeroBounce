@@ -11,18 +11,19 @@
 	const fullTitle = $derived(
 		title ? `${title} — ${site.name}` : `${site.name} — ${site.description}`
 	);
-	const canonical = $derived(new URL(page.url.pathname, site.url).href);
+	// Absolute URLs need the domain; until site.url is set they are left out.
+	const canonical = $derived(site.url ? new URL(page.url.pathname, site.url).href : '');
 </script>
 
 <svelte:head>
 	<title>{fullTitle}</title>
 	<meta name="description" content={description} />
-	<link rel="canonical" href={canonical} />
+	{#if canonical}<link rel="canonical" href={canonical} />{/if}
 	{#if noindex}<meta name="robots" content="noindex" />{/if}
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content={site.locale} />
 	<meta property="og:site_name" content={site.name} />
 	<meta property="og:title" content={fullTitle} />
 	<meta property="og:description" content={description} />
-	<meta property="og:url" content={canonical} />
+	{#if canonical}<meta property="og:url" content={canonical} />{/if}
 </svelte:head>

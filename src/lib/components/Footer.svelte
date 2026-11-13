@@ -13,17 +13,21 @@
 		<div class="space-y-4">
 			<img src={logo} alt={site.name} width="885" height="154" class="h-6 w-auto" loading="lazy" />
 			<p class="max-w-xs text-ink-muted">{site.description}</p>
-			<ul class="space-y-1 font-semibold">
-				<li><a class="hover:text-brand" href="mailto:{site.email}">{site.email}</a></li>
-				{#if site.phone}<li>
-						<a class="hover:text-brand" href="tel:{site.phone.replace(/[^\d+]/g, '')}"
-							>{site.phone}</a
-						>
-					</li>{/if}
-				{#if site.telegram}<li>
-						<a class="hover:text-brand" href={site.telegram}>Telegram</a>
-					</li>{/if}
-			</ul>
+			{#if site.email || site.phone || site.telegram}
+				<ul class="space-y-1 font-semibold">
+					{#if site.email}<li>
+							<a class="hover:text-brand" href="mailto:{site.email}">{site.email}</a>
+						</li>{/if}
+					{#if site.phone}<li>
+							<a class="hover:text-brand" href="tel:{site.phone.replace(/[^\d+]/g, '')}"
+								>{site.phone}</a
+							>
+						</li>{/if}
+					{#if site.telegram}<li>
+							<a class="hover:text-brand" href={site.telegram}>Telegram</a>
+						</li>{/if}
+				</ul>
+			{/if}
 		</div>
 
 		<div class="grid gap-10 sm:grid-cols-2 xl:grid-cols-4">

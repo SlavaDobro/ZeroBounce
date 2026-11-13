@@ -1,6 +1,7 @@
 /** Site-wide settings: name, contacts, defaults for <head>. */
 export const site: {
 	name: string;
+	/** Full address with https://, e.g. 'https://example.ru'. Empty until the domain is bought. */
 	url: string;
 	description: string;
 	locale: string;
@@ -9,11 +10,11 @@ export const site: {
 	telegram: string;
 } = {
 	name: 'Zero Bounce',
-	url: 'https://zerobounce.ru',
+	url: '',
 	description: 'Комплексный интернет-маркетинг для вашего бизнеса',
 	locale: 'ru_RU',
-	email: 'info@zerobounce.ru',
-	// Fill in before launch; empty values are not shown on the site.
+	// Contacts: fill in before launch. Empty values are not shown on the site.
+	email: '',
 	phone: '',
 	telegram: ''
 };

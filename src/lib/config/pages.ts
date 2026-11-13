@@ -1,6 +1,6 @@
 /**
- * All pages of the current WordPress site, with their exact URLs.
- * Keeping the same paths keeps search rankings and old links working.
+ * Draft site structure: services and company pages. Titles are a starting point,
+ * pages and addresses can be added, renamed or removed freely.
  *
  * Until a page gets its own route folder (src/routes/<path>/+page.svelte),
  * it is rendered by the placeholder route src/routes/[...path].
@@ -8,7 +8,7 @@
 export type PageGroup = 'marketing' | 'crm' | 'consulting' | 'company' | 'legal';
 
 export interface SitePage {
-	/** URL path without slashes at the ends, as on the current site. */
+	/** URL path without slashes at the ends, e.g. 'contacts' → /contacts/. */
 	path: string;
 	title: string;
 	group: PageGroup;
@@ -25,11 +25,7 @@ export const groupTitles: Record<PageGroup, string> = {
 export const pages: SitePage[] = [
 	// Marketing
 	{ path: 'kompleksnyj-marketing', title: 'Комплексный маркетинг', group: 'marketing' },
-	{
-		path: 'marketingovoe-resheniye/kontekstnaya-reklama',
-		title: 'Контекстная реклама',
-		group: 'marketing'
-	},
+	{ path: 'kontekstnaya-reklama', title: 'Контекстная реклама', group: 'marketing' },
 	{
 		path: 'poiskovaya-optimizacziya-seo',
 		title: 'Поисковая оптимизация (SEO)',

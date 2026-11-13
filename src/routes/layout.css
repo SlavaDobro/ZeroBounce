@@ -4,7 +4,7 @@
 @plugin '@tailwindcss/typography';
 
 /*
- * Brand tokens, taken from the current site (Elementor global colors and fonts).
+ * Brand tokens: Zero Bounce colors and font (starting palette, can be changed).
  * Use them as Tailwind classes: bg-brand, text-ink-muted, border-line, rounded-card…
  */
 @theme {

@@ -35,7 +35,7 @@ export default defineConfig(
 	},
 	{
 		rules: {
-			// The site is served from the domain root and links mirror the old WordPress URLs
+			// The site is served from the domain root and all links come from one list
 			// (see src/lib/config/pages.ts), so wrapping every href in resolve() adds nothing.
 			'svelte/no-navigation-without-resolve': 'off'
 		}

@@ -1,4 +1,4 @@
 // Every page is rendered to static HTML at build time (good for SEO, works on any hosting).
 export const prerender = true;
-// /contacts → /contacts/ — the same URL format as the current WordPress site.
+// Addresses end with a slash: /contacts/ (each page is built as contacts/index.html).
 export const trailingSlash = 'always';
