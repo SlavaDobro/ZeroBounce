@@ -35,8 +35,8 @@ export default defineConfig(
 	},
 	{
 		rules: {
-			// The site is served from the domain root and all links come from one list
-			// (see src/lib/config/pages.ts), so wrapping every href in resolve() adds nothing.
+			// Internal links go through link() from src/lib/link.ts, which calls resolve().
+			// The rule only recognises direct resolve() calls, so it is turned off.
 			'svelte/no-navigation-without-resolve': 'off'
 		}
 	}

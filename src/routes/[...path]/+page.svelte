@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { link } from '#lib/link.ts';
 	import Button from '#lib/components/Button.svelte';
 	import Container from '#lib/components/Container.svelte';
 	import Seo from '#lib/components/Seo.svelte';
@@ -14,7 +15,7 @@
 <section class="py-20">
 	<Container>
 		<nav aria-label="Хлебные крошки" class="mb-6 text-sm text-ink-muted">
-			<a href="/" class="hover:text-brand">Главная</a>
+			<a href={link('/')} class="hover:text-brand">Главная</a>
 			<span aria-hidden="true"> / </span>
 			<span>{groupTitles[data.page.group]}</span>
 		</nav>
@@ -22,6 +23,6 @@
 			{data.page.title}
 		</h1>
 		<p class="mt-6 max-w-2xl text-lg text-ink-muted">Страница в разработке.</p>
-		<Button href="/contacts/" class="mt-10">Обсудить задачу</Button>
+		<Button href={link('/contacts/')} class="mt-10">Обсудить задачу</Button>
 	</Container>
 </section>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { link } from '#lib/link.ts';
 	import { page } from '$app/state';
 	import logo from '#lib/assets/logo.png';
 	import { mainNav } from '#lib/config/pages.ts';
@@ -14,12 +15,14 @@
 		open = false;
 	});
 
-	const isCurrent = (href: string) => !href.includes('#') && page.url.pathname === href;
+	// pathname includes the base folder on GitHub Pages, so compare the end of it.
+	const isCurrent = (href: string) =>
+		href !== '/' && !href.includes('#') && page.url.pathname.endsWith(href);
 </script>
 
 <header class="sticky top-0 z-40 border-b border-line/70 bg-white/90 backdrop-blur">
 	<Container class="flex h-18 items-center justify-between gap-6">
-		<a href="/" class="shrink-0" aria-label="{site.name} — на главную">
+		<a href={link('/')} class="shrink-0" aria-label="{site.name} — на главную">
 			<img src={logo} alt={site.name} width="885" height="154" class="h-5 w-auto sm:h-6" />
 		</a>
 
@@ -28,7 +31,7 @@
 				{#each mainNav as item (item.href)}
 					<li>
 						<a
-							href={item.href}
+							href={link(item.href)}
 							class="transition-colors hover:text-brand aria-[current=page]:text-brand"
 							aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a
 						>
@@ -38,7 +41,7 @@
 		</nav>
 
 		<div class="flex items-center gap-3">
-			<Button href="/contacts/" class="hidden px-5! py-2.5! text-sm sm:inline-flex"
+			<Button href={link('/contacts/')} class="hidden px-5! py-2.5! text-sm sm:inline-flex"
 				>Запросить аудит</Button
 			>
 			<button
@@ -80,13 +83,13 @@
 				<ul class="grid gap-1 text-lg font-semibold">
 					{#each mainNav as item (item.href)}
 						<li>
-							<a href={item.href} class="block rounded-xl px-3 py-3 hover:bg-surface"
+							<a href={link(item.href)} class="block rounded-xl px-3 py-3 hover:bg-surface"
 								>{item.label}</a
 							>
 						</li>
 					{/each}
 				</ul>
-				<Button href="/contacts/" class="mt-4 w-full">Запросить аудит</Button>
+				<Button href={link('/contacts/')} class="mt-4 w-full">Запросить аудит</Button>
 			</Container>
 		</nav>
 	{/if}

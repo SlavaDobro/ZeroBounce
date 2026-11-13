@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { link } from '#lib/link.ts';
 	import { page } from '$app/state';
 	import Button from '#lib/components/Button.svelte';
 	import Container from '#lib/components/Container.svelte';
@@ -20,6 +21,6 @@
 				? 'Возможно, адрес изменился. Начните с главной страницы.'
 				: 'Обновите страницу или вернитесь позже.'}
 		</p>
-		<Button href="/" class="mt-8">На главную</Button>
+		<Button href={link('/')} class="mt-8">На главную</Button>
 	</Container>
 </section>

@@ -5,6 +5,8 @@
  * Until a page gets its own route folder (src/routes/<path>/+page.svelte),
  * it is rendered by the placeholder route src/routes/[...path].
  */
+import { link } from '#lib/link.ts';
+
 export type PageGroup = 'marketing' | 'crm' | 'consulting' | 'company' | 'legal';
 
 export interface SitePage {
@@ -90,13 +92,13 @@ export const pages: SitePage[] = [
 	{ path: 'politika-ispolzovaniya-cookie', title: 'Политика использования Cookie', group: 'legal' }
 ];
 
-export const href = (page: SitePage) => `/${page.path}/`;
+export const href = (page: SitePage) => link(`/${page.path}/`);
 
 export const pagesByGroup = (group: PageGroup) => pages.filter((page) => page.group === group);
 
 export const findPage = (path: string) => pages.find((page) => page.path === path);
 
-/** Short main menu. Edit freely: links are full URL paths. */
+/** Short main menu. Paths are without the base folder: link() adds it when rendering. */
 export const mainNav = [
 	{ label: 'Услуги', href: '/#services' },
 	{ label: 'Аудит', href: '/marketingovyj-audit/' },

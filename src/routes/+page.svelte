@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { link } from '#lib/link.ts';
 	import Button from '#lib/components/Button.svelte';
 	import Container from '#lib/components/Container.svelte';
 	import Seo from '#lib/components/Seo.svelte';
@@ -22,7 +23,7 @@
 			финальный.
 		</p>
 		<div class="mt-10 flex flex-wrap gap-3">
-			<Button href="/contacts/">Запросить аудит</Button>
+			<Button href={link('/contacts/')}>Запросить аудит</Button>
 			<Button href="#services" variant="secondary">Все услуги</Button>
 		</div>
 	</Container>
@@ -65,7 +66,7 @@
 			</h2>
 			<p class="mt-4 max-w-xl text-white/80">Оставьте заявку — свяжемся и предложим план работ.</p>
 			<a
-				href="/contacts/"
+				href={link('/contacts/')}
 				class="mt-8 inline-flex rounded-button bg-white px-7 py-3.5 font-bold text-brand transition-colors hover:bg-brand-tint"
 				>Оставить заявку</a
 			>

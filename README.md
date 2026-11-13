@@ -30,6 +30,7 @@ src/
   lib/
     config/site.ts            название, домен, контакты (пока пустые)
     config/pages.ts           список всех страниц с адресами + главное меню
+    link.ts                   link() — внутренние ссылки с учётом подпапки
     components/               Header, Footer, Container, Button, Seo
     assets/                   логотип, фавикон (временный)
 static/
@@ -72,6 +73,20 @@ src/routes/kontekstnaya-reklama/+page.svelte
 
 В новой странице подключите `<Seo title="…" description="…" />` (без `noindex`).
 
+### Внутренние ссылки — только через `link()`
+
+Сайт может жить в подпапке (на GitHub Pages это `/ZeroBounce/`), поэтому внутренние ссылки пишутся через `link()` — она добавит нужную папку:
+
+```svelte
+<script lang="ts">
+	import { link } from '#lib/link.ts';
+</script>
+
+<a href={link('/contacts/')}>Контакты</a>
+```
+
+Ссылка вида `href="/contacts/"` локально работает, а на GitHub Pages ведёт в никуда. Картинки и файлы, импортированные через `import`, правятся автоматически.
+
 ## Домен
 
 Домена пока нет. Когда появится, впишите его в `src/lib/config/site.ts` (`url: 'https://…'`): после этого на страницах появятся canonical и `og:url`. Там же — email, телефон и Telegram; пустые контакты на сайте не показываются.
@@ -87,7 +102,25 @@ import Button from '#lib/components/Button.svelte';
 
 ## Деплой
 
-`npm run build` → загрузить **содержимое** папки `build/` (вместе со скрытым `.htaccess`) в корень сайта на хостинге.
+### GitHub Pages (сейчас)
+
+Сайт: https://slavadobro.github.io/ZeroBounce/
+
+Каждый push в `main` запускает `.github/workflows/deploy.yml`: проверки (lint, check) → сборка с `BASE_PATH=/ZeroBounce` → публикация. Ход сборки — на вкладке **Actions** репозитория, обычно 1–2 минуты.
+
+Один раз нужно включить: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+Проверить сборку под подпапкой локально (Git Bash):
+
+```bash
+MSYS_NO_PATHCONV=1 BASE_PATH=/ZeroBounce npm run build
+```
+
+`MSYS_NO_PATHCONV=1` нужен только в Git Bash на Windows: без него `/ZeroBounce` превращается в путь к папке Git. В PowerShell: `$env:BASE_PATH='/ZeroBounce'; npm run build`.
+
+### Свой домен (потом)
+
+`npm run build` без `BASE_PATH` → загрузить **содержимое** папки `build/` (вместе со скрытым `.htaccess`) в корень сайта на хостинге.
 
 ## Что осталось сделать
 
