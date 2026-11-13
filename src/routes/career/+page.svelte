@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inview } from '#lib/inview.ts';
 	import Button from '#lib/components/Button.svelte';
 	import Container from '#lib/components/Container.svelte';
 	import Process from '#lib/components/Process.svelte';
@@ -78,7 +79,7 @@
 	</Container>
 </section>
 
-<section class="border-t border-ink py-16 lg:py-24">
+<section use:inview class="draw-rule py-16 lg:py-24">
 	<Container class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 		<div>
 			<h2 class="text-2xl lg:text-3xl">Что мы ценим</h2>
@@ -97,7 +98,7 @@
 	</Container>
 </section>
 
-<section class="border-t border-ink py-16 lg:py-24" aria-labelledby="hire-title">
+<section use:inview class="draw-rule py-16 lg:py-24" aria-labelledby="hire-title">
 	<Container>
 		<h2 id="hire-title" class="text-2xl lg:text-3xl">Как проходит отбор</h2>
 		<div class="mt-12"><Process steps={hiring} /></div>

@@ -3,6 +3,7 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import Footer from '#lib/components/Footer.svelte';
 	import Header from '#lib/components/Header.svelte';
+	import MobileActions from '#lib/components/MobileActions.svelte';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -18,10 +19,12 @@
 	>Перейти к содержимому</a
 >
 
-<div class="flex min-h-dvh flex-col">
+<!-- Bottom padding on phones leaves room for the contact bar. -->
+<div class="flex min-h-dvh flex-col pb-[4.5rem] lg:pb-0">
 	<Header />
 	<main id="main" class="flex-1">
 		{@render children()}
 	</main>
 	<Footer />
 </div>
+<MobileActions />

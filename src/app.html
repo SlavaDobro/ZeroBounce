@@ -4,7 +4,11 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="text-scale" content="scale" />
-		<meta name="theme-color" content="#6754e9" />
+		<meta name="theme-color" content="#eef0ec" />
+		<!-- Scroll animations hide content only when JS can reveal it again. -->
+		<script>
+			document.documentElement.classList.add('js');
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

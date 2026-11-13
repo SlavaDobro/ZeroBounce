@@ -4,11 +4,40 @@
 	 * On load the violet dot (the customer) drops onto the page from above the viewer
 	 * and lands in the centre without bouncing. CSS only, so it also plays without JS.
 	 */
+	import { onMount } from 'svelte';
+	import { Spring } from 'svelte/motion';
+
 	let { class: className = '' }: { class?: string } = $props();
 	const id = 'ht';
+
+	/*
+	 * Depth on pointer move: the drawing is a stack of layers seen from above. Layers closer
+	 * to the viewer (the dot) shift more than the outer ring, so the target reads as volume.
+	 */
+	const tilt = new Spring({ x: 0, y: 0 }, { stiffness: 0.08, damping: 0.35 });
+	let figure: HTMLElement | undefined = $state();
+	onMount(() => {
+		const fine = matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)');
+		if (!fine.matches) return;
+		const move = (e: PointerEvent) => {
+			const r = figure!.getBoundingClientRect();
+			const x = (e.clientX - (r.left + r.width / 2)) / innerWidth;
+			const y = (e.clientY - (r.top + r.height / 2)) / innerHeight;
+			tilt.target = { x: Math.max(-1, Math.min(1, x)), y: Math.max(-1, Math.min(1, y)) };
+		};
+		const leave = () => (tilt.target = { x: 0, y: 0 });
+		addEventListener('pointermove', move);
+		document.addEventListener('pointerleave', leave);
+		return () => {
+			removeEventListener('pointermove', move);
+			document.removeEventListener('pointerleave', leave);
+		};
+	});
+	const shift = (depth: number) =>
+		`translate(${(tilt.current.x * depth).toFixed(2)}px, ${(tilt.current.y * depth).toFixed(2)}px)`;
 </script>
 
-<figure class={['hero-target', className]}>
+<figure class={['hero-target', className]} bind:this={figure}>
 	<svg viewBox="0 0 520 520" role="img" aria-labelledby="{id}-title">
 		<title id="{id}-title">Мишень: точка-клиент в центре</title>
 		<defs>
@@ -39,21 +68,26 @@
 			<path class="axis" d="M260 4V516M4 260H516" />
 			<g class="hatch-bands">
 				<rect width="520" height="520" fill="url(#{id}-v)" mask="url(#{id}-outer)" />
-				<rect width="520" height="520" fill="url(#{id}-d)" mask="url(#{id}-inner)" />
+				<g style:transform={shift(10)}>
+					<rect width="520" height="520" fill="url(#{id}-d)" mask="url(#{id}-inner)" />
+				</g>
 			</g>
 			<circle class="r1 ring" cx="260" cy="260" r="236" pathLength="1" />
-			<circle class="r2 ring" cx="260" cy="260" r="172" pathLength="1" />
-			<circle class="r3 ring" cx="260" cy="260" r="104" pathLength="1" />
-			<circle class="core" cx="260" cy="260" r="104" />
-			<circle class="socket" cx="260" cy="260" r="40" />
+			<g style:transform={shift(10)}>
+				<circle class="r2 ring" cx="260" cy="260" r="172" pathLength="1" />
+			</g>
+			<g style:transform={shift(20)}>
+				<circle class="r3 ring" cx="260" cy="260" r="104" pathLength="1" />
+				<circle class="core" cx="260" cy="260" r="104" />
+				<circle class="socket" cx="260" cy="260" r="40" />
+			</g>
 		</g>
 
-		<circle class="impact" cx="260" cy="260" r="34" />
-		<circle class="dot" cx="260" cy="260" r="32" />
+		<g style:transform={shift(32)}>
+			<circle class="impact" cx="260" cy="260" r="34" />
+			<circle class="dot" cx="260" cy="260" r="32" />
+		</g>
 	</svg>
-	<figcaption class="mt-4 max-w-xs text-sm text-graphite">
-		Zero bounce значит «ноль отказов»: клиент приходит и остаётся.
-	</figcaption>
 </figure>
 
 <style>

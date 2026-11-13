@@ -1,16 +1,19 @@
 <script lang="ts">
+	import { inview } from '#lib/inview.ts';
 	import Container from '#lib/components/Container.svelte';
 	import CtaBand from '#lib/components/CtaBand.svelte';
 	import Seo from '#lib/components/Seo.svelte';
 	import StageStrip from '#lib/components/StageStrip.svelte';
-	import { stages, systemStage, type StageId } from '#lib/content/journey.ts';
+	import { serviceGroups } from '#lib/config/pages.ts';
+	import { stages, systemStage } from '#lib/content/journey.ts';
 	import { serviceHref, servicesByStage } from '#lib/content/services.ts';
 	import { link } from '#lib/link.ts';
 
-	const groups: { id: StageId; title: string; text: string }[] = [
-		...stages,
-		{ id: 'system', ...systemStage }
-	];
+	// Plain group names on top; the stage of the customer path explains what the group is for.
+	const groups = serviceGroups.map((g) => {
+		const stage = stages.find((s) => s.id === g.id);
+		return { ...g, text: stage?.text ?? systemStage.text };
+	});
 </script>
 
 <Seo
@@ -22,18 +25,19 @@
 	<Container>
 		<h1 class="text-[clamp(2.2rem,5vw,4rem)]">Услуги</h1>
 		<p class="mt-6 max-w-2xl text-lg text-graphite">
-			Каждая услуга отвечает за свой участок пути клиента. Вместе они складываются в систему, где
-			заявки не теряются между подрядчиками.
+			Найдите свою задачу в списке и откройте услугу — там описано, что входит и как мы работаем. Не
+			уверены, что выбрать? <a class="link text-ink" href={link('/contacts/')}>Оставьте заявку</a>,
+			подскажем.
 		</p>
 	</Container>
 </section>
 
 {#each groups as group, i (group.id)}
-	<section class="border-t border-ink py-12 lg:py-16" aria-labelledby="g-{group.id}">
+	<section use:inview class="draw-rule py-12 lg:py-16" aria-labelledby="g-{group.id}">
 		<Container class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 			<div class="space-y-5">
 				<p class="text-sm text-graphite">
-					{group.id === 'system' ? 'Все этапы' : `Этап ${i + 1}`}
+					{group.id === 'system' ? 'На всех этапах пути клиента' : `Этап ${i + 1} пути клиента`}
 				</p>
 				<h2 id="g-{group.id}" class="text-2xl lg:text-3xl">{group.title}</h2>
 				<p class="max-w-sm text-graphite">{group.text}</p>

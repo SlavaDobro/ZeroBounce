@@ -1,19 +1,15 @@
 <script lang="ts">
-	import logo from '#lib/assets/logo.png';
-	import { companyNav, legalNav } from '#lib/config/pages.ts';
+	import { companyNav, legalNav, serviceGroups } from '#lib/config/pages.ts';
 	import { site } from '#lib/config/site.ts';
 	import { legal } from '#lib/content/company.ts';
-	import { stages } from '#lib/content/journey.ts';
 	import { serviceHref, servicesByStage } from '#lib/content/services.ts';
 	import { link } from '#lib/link.ts';
 	import Container from './Container.svelte';
+	import Logo from './Logo.svelte';
 
 	const year = new Date().getFullYear();
-	// One column per stage of the customer path, plus the cross-cutting services.
-	const columns = [
-		...stages.map((s) => ({ title: s.title, items: servicesByStage(s.id) })),
-		{ title: 'Через весь путь', items: servicesByStage('system') }
-	];
+	// One column per service group, in the order of the customer path.
+	const columns = serviceGroups.map((g) => ({ title: g.title, items: servicesByStage(g.id) }));
 </script>
 
 <!-- Footer drawn as the title block of a drawing sheet (штамп). -->
@@ -22,14 +18,7 @@
 		<div class="grid border-t border-l border-ink/70 lg:grid-cols-[1.1fr_3fr]">
 			<div class="flex flex-col justify-between gap-8 border-r border-b border-ink/70 p-6">
 				<div class="space-y-4">
-					<img
-						src={logo}
-						alt={site.name}
-						width="885"
-						height="154"
-						class="h-5 w-auto"
-						loading="lazy"
-					/>
+					<a href={link('/')} aria-label="{site.name} — на главную"><Logo size="lg" /></a>
 					<p class="max-w-xs text-graphite">{site.description}.</p>
 				</div>
 				<div class="space-y-1">

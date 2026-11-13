@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inview } from '#lib/inview.ts';
 	import certificate from '#lib/assets/lvmh-certificate.jpg';
 	import Container from '#lib/components/Container.svelte';
 	import CtaBand from '#lib/components/CtaBand.svelte';
@@ -47,7 +48,7 @@
 	</Container>
 </section>
 
-<section class="border-t border-ink py-16 lg:py-24" aria-labelledby="founder-title">
+<section use:inview class="draw-rule py-16 lg:py-24" aria-labelledby="founder-title">
 	<Container class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
 		<div>
 			<p class="text-sm text-graphite">{founder.role}</p>
@@ -72,7 +73,7 @@
 	</Container>
 </section>
 
-<section class="border-t border-ink py-16 lg:py-24" aria-labelledby="united-title">
+<section use:inview class="draw-rule py-16 lg:py-24" aria-labelledby="united-title">
 	<Container>
 		<h2 id="united-title" class="text-2xl lg:text-3xl">Что объединяет команду</h2>
 		<ul class="mt-10 grid gap-10 md:grid-cols-3 md:gap-0">

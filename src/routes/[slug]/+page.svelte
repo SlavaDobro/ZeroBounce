@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inview } from '#lib/inview.ts';
 	import Button from '#lib/components/Button.svelte';
 	import Container from '#lib/components/Container.svelte';
 	import CtaBand from '#lib/components/CtaBand.svelte';
@@ -6,18 +7,16 @@
 	import Process from '#lib/components/Process.svelte';
 	import Seo from '#lib/components/Seo.svelte';
 	import StageStrip from '#lib/components/StageStrip.svelte';
-	import { auditHref } from '#lib/config/pages.ts';
+	import { auditHref, serviceGroups } from '#lib/config/pages.ts';
 	import { site } from '#lib/config/site.ts';
-	import { stages, systemStage } from '#lib/content/journey.ts';
 	import { serviceHref, servicesByStage } from '#lib/content/services.ts';
 	import { link } from '#lib/link.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 	const service = $derived(data.service);
-	const stageTitle = $derived(
-		stages.find((s) => s.id === service.stage)?.title ?? systemStage.title
-	);
+	// Plain group name, the same as in the menu.
+	const stageTitle = $derived(serviceGroups.find((g) => g.id === service.stage)?.title ?? '');
 	const related = $derived(servicesByStage(service.stage).filter((s) => s.slug !== service.slug));
 </script>
 
@@ -48,7 +47,7 @@
 </section>
 
 {#if service.includes.length}
-	<section class="border-t border-ink py-16 lg:py-24" aria-labelledby="inc-title">
+	<section use:inview class="draw-rule py-16 lg:py-24" aria-labelledby="inc-title">
 		<Container class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 			<h2 id="inc-title" class="text-2xl lg:text-3xl">Что входит</h2>
 			<ul class="grid border-t border-ink/20 sm:grid-cols-2">
@@ -81,7 +80,7 @@
 {/each}
 
 {#if service.features.length}
-	<section class="border-t border-ink py-16 lg:py-24">
+	<section use:inview class="draw-rule py-16 lg:py-24">
 		<Container>
 			<ul class="grid gap-10 md:grid-cols-3 md:gap-0">
 				{#each service.features as feature (feature.title)}
@@ -111,7 +110,7 @@
 {/if}
 
 {#if service.steps.length}
-	<section class="border-t border-ink py-16 lg:py-24" aria-labelledby="steps-title">
+	<section use:inview class="draw-rule py-16 lg:py-24" aria-labelledby="steps-title">
 		<Container>
 			<h2 id="steps-title" class="text-2xl lg:text-3xl">Как мы работаем</h2>
 			<div class="mt-12">
@@ -122,7 +121,7 @@
 {/if}
 
 {#if service.faq.length}
-	<section class="border-t border-ink py-16 lg:py-24" aria-labelledby="faq-title">
+	<section use:inview class="draw-rule py-16 lg:py-24" aria-labelledby="faq-title">
 		<Container class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 			<h2 id="faq-title" class="text-2xl lg:text-3xl">Вопросы и ответы</h2>
 			<Faq items={service.faq} />
@@ -131,7 +130,7 @@
 {/if}
 
 {#if related.length}
-	<section class="border-t border-ink py-16" aria-labelledby="rel-title">
+	<section use:inview class="draw-rule py-16" aria-labelledby="rel-title">
 		<Container class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 			<h2 id="rel-title" class="text-xl">На этом же этапе</h2>
 			<ul class="grid border-t border-ink/20 sm:grid-cols-2">

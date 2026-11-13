@@ -60,7 +60,9 @@
 	</defs>
 </svg>
 
-<ul class="grid grid-cols-2 border-t border-l border-ink/25 sm:grid-cols-3 lg:grid-cols-4">
+<ul
+	class="grid grid-cols-1 border-t border-l border-ink/25 min-[420px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+>
 	{#each niches as niche (niche.title)}
 		<li class="niche flex items-center gap-4 border-r border-b border-ink/25 p-4 sm:p-5">
 			<svg class="size-12 shrink-0 sm:size-14" viewBox="0 0 56 56" aria-hidden="true">

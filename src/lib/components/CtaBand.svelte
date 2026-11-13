@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inview } from '#lib/inview.ts';
 	import { auditHref } from '#lib/config/pages.ts';
 	import { site } from '#lib/config/site.ts';
 	import { link } from '#lib/link.ts';
@@ -6,7 +7,7 @@
 	import Container from './Container.svelte';
 </script>
 
-<section class="border-t border-ink py-20 lg:py-28" aria-labelledby="cta-title">
+<section use:inview class="draw-rule py-20 lg:py-28" aria-labelledby="cta-title">
 	<Container>
 		<h2 id="cta-title" class="max-w-4xl text-3xl sm:text-4xl">
 			Перейдём от хаоса к системе<span class="stop" aria-hidden="true"></span><span class="sr-only"

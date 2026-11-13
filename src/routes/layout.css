@@ -107,4 +107,31 @@
 		max-width: var(--container-text);
 		white-space: pre-line;
 	}
+
+	/*
+	 * Section divider drawn like a pen stroke when the section scrolls into view
+	 * (use:inview from #lib/inview.ts). Without JS the line is simply there.
+	 */
+	.draw-rule {
+		position: relative;
+	}
+	.draw-rule::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto;
+		height: 1px;
+		background: var(--color-ink);
+		transform-origin: left;
+	}
+	.js .draw-rule:not([data-inview])::before {
+		transform: scaleX(0);
+	}
+	.js .draw-rule::before {
+		transition: transform 1.2s var(--ease-settle);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.js .draw-rule::before {
+			transition: none;
+		}
+	}
 }

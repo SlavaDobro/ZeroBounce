@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { inview } from '#lib/inview.ts';
 	import Container from '#lib/components/Container.svelte';
 	import CtaBand from '#lib/components/CtaBand.svelte';
 	import Seo from '#lib/components/Seo.svelte';
@@ -22,7 +23,7 @@
 	</Container>
 </section>
 
-<section class="border-t border-ink py-16 lg:py-20" aria-labelledby="found-title">
+<section use:inview class="draw-rule py-16 lg:py-20" aria-labelledby="found-title">
 	<Container class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 		<h2 id="found-title" class="text-2xl lg:text-3xl">Фундамент философии</h2>
 		<ul class="grid grid-cols-1 border-t border-l border-ink/25 sm:grid-cols-2">
@@ -33,7 +34,7 @@
 	</Container>
 </section>
 
-<section class="border-t border-ink pt-16 lg:pt-20" aria-labelledby="arch-title">
+<section use:inview class="draw-rule pt-16 lg:pt-20" aria-labelledby="arch-title">
 	<Container>
 		<h2 id="arch-title" class="max-w-3xl text-3xl lg:text-4xl">Архитектура клиентского пути</h2>
 	</Container>
@@ -68,7 +69,7 @@
 	{/each}
 </section>
 
-<section class="border-t border-ink py-16 lg:py-24">
+<section use:inview class="draw-rule py-16 lg:py-24">
 	<Container class="grid gap-12 lg:grid-cols-2 lg:gap-20">
 		<div>
 			<h2 class="text-2xl lg:text-3xl">{philosophy.why.title}</h2>

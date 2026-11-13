@@ -6,7 +6,9 @@ const resolvePath = resolve as (path: string) => string;
 /**
  * Internal link with the site's base folder added: '/contacts/' → '/ZeroBounce/contacts/'
  * on GitHub Pages, unchanged on the site's own domain. Use it for every internal href.
+ * Anchors are kept: '/#calc' → '/ZeroBounce/#calc'.
  */
 export function link(path: string): string {
-	return resolvePath(path);
+	const [pathname, hash] = path.split('#');
+	return resolvePath(pathname || '/') + (hash ? `#${hash}` : '');
 }
