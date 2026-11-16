@@ -27,7 +27,7 @@
 		<aside class="space-y-10 lg:border-l lg:border-ink/20 lg:pl-12">
 			<div>
 				<p class="text-sm text-graphite">Быстрее всего — в Telegram</p>
-				<a class="link mt-2 inline-block font-display text-2xl font-light" href={site.telegram}
+				<a class="link mt-1 inline-block py-1 font-display text-2xl font-light" href={site.telegram}
 					>{site.telegramHandle}</a
 				>
 			</div>

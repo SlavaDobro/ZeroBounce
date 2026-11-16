@@ -18,12 +18,18 @@
 		<div class="grid border-t border-l border-ink/70 lg:grid-cols-[1.1fr_3fr]">
 			<div class="flex flex-col justify-between gap-8 border-r border-b border-ink/70 p-6">
 				<div class="space-y-4">
-					<a href={link('/')} aria-label="{site.name} — на главную"><Logo size="lg" /></a>
+					<a
+						href={link('/')}
+						class="inline-flex min-h-11 items-center"
+						aria-label="{site.name} — на главную"><Logo size="lg" /></a
+					>
 					<p class="max-w-xs text-graphite">{site.description}.</p>
 				</div>
 				<div class="space-y-1">
 					<p class="text-xs text-graphite">Связь</p>
-					<a class="link text-lg" href={site.telegram}>Telegram {site.telegramHandle}</a>
+					<a class="link inline-block py-2 text-lg" href={site.telegram}
+						>Telegram {site.telegramHandle}</a
+					>
 					{#if site.email}<a class="link block" href="mailto:{site.email}">{site.email}</a>{/if}
 					{#if site.phone}<a class="link block" href="tel:{site.phone.replace(/[^\d+]/g, '')}"
 							>{site.phone}</a
@@ -35,10 +41,12 @@
 				{#each columns as column (column.title)}
 					<div class="border-r border-b border-ink/70 p-6">
 						<p class="mb-3 text-xs text-graphite">{column.title}</p>
-						<ul class="space-y-1.5">
+						<ul class="lg:space-y-1.5">
 							{#each column.items as item (item.slug)}
 								<li>
-									<a class="hover:text-visit" href={link(serviceHref(item))}>{item.navTitle}</a>
+									<a class="block py-2.5 hover:text-visit lg:py-0" href={link(serviceHref(item))}
+										>{item.navTitle}</a
+									>
 								</li>
 							{/each}
 						</ul>
@@ -48,9 +56,13 @@
 
 			<div class="border-r border-b border-ink/70 p-6">
 				<p class="mb-3 text-xs text-graphite">Компания</p>
-				<ul class="space-y-1.5">
+				<ul class="lg:space-y-1.5">
 					{#each companyNav as item (item.href)}
-						<li><a class="hover:text-visit" href={link(item.href)}>{item.label}</a></li>
+						<li>
+							<a class="block py-2.5 hover:text-visit lg:py-0" href={link(item.href)}
+								>{item.label}</a
+							>
+						</li>
 					{/each}
 				</ul>
 			</div>
@@ -64,9 +76,13 @@
 				</div>
 				<div class="border-r border-b border-ink/70 p-6">
 					<p class="mb-3 text-xs text-graphite">Документы</p>
-					<ul class="space-y-1.5">
+					<ul class="lg:space-y-1.5">
 						{#each legalNav as item (item.href)}
-							<li><a class="hover:text-visit" href={link(item.href)}>{item.label}</a></li>
+							<li>
+								<a class="block py-2.5 hover:text-visit lg:py-0" href={link(item.href)}
+									>{item.label}</a
+								>
+							</li>
 						{/each}
 					</ul>
 				</div>

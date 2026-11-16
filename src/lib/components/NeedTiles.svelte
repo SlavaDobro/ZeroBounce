@@ -3,7 +3,38 @@
 	 * Entry points in the client's own words: «what do you need?» → the right page.
 	 * On hover the dot rolls in from the left edge and stops in its circle — no bounce.
 	 */
+	import { onMount } from 'svelte';
 	import { link } from '#lib/link.ts';
+
+	/*
+	 * Touch screens have no hover: the tile closest to the middle of the screen comes alive
+	 * instead, so the dot rolls from tile to tile as the page scrolls.
+	 */
+	let live = $state(-1);
+	let tiles: HTMLElement[] = $state([]);
+	onMount(() => {
+		if (!matchMedia('(hover: none)').matches) return;
+		let frame = 0;
+		const update = () => {
+			frame = 0;
+			const mid = innerHeight * 0.55;
+			let best = -1;
+			let bestDistance = innerHeight * 0.35;
+			tiles.forEach((el, i) => {
+				const r = el.getBoundingClientRect();
+				const d = Math.abs(r.top + r.height / 2 - mid);
+				if (d < bestDistance) [best, bestDistance] = [i, d];
+			});
+			live = best;
+		};
+		const schedule = () => (frame ||= requestAnimationFrame(update));
+		update();
+		addEventListener('scroll', schedule, { passive: true });
+		return () => {
+			removeEventListener('scroll', schedule);
+			cancelAnimationFrame(frame);
+		};
+	});
 
 	const needs = [
 		{
@@ -51,10 +82,12 @@
 </script>
 
 <ul class="tiles grid border-t border-l border-ink/30 sm:grid-cols-2 lg:grid-cols-3">
-	{#each needs as need (need.href)}
+	{#each needs as need, i (need.href)}
 		<li class="border-r border-b border-ink/30">
 			<a
+				bind:this={tiles[i]}
 				href={link(need.href)}
+				class:is-live={live === i}
 				class="tile group relative flex h-full min-h-36 flex-col justify-between gap-6 overflow-hidden p-6 lg:min-h-44 lg:p-7"
 			>
 				<span class="relative z-10">
@@ -82,6 +115,7 @@
 		transition: clip-path 0.5s var(--ease-settle);
 	}
 	.tile:hover::before,
+	.tile.is-live::before,
 	.tile:focus-visible::before {
 		clip-path: inset(0 0 0 0);
 	}
@@ -114,21 +148,16 @@
 		container-type: inline-size;
 	}
 	.tile:hover .dot,
+	.tile.is-live .dot,
 	.tile:focus-visible .dot {
 		translate: 0 0;
 		opacity: 1;
 	}
 	.tile:hover .socket,
+	.tile.is-live .socket,
 	.tile:focus-visible .socket {
 		border-style: solid;
 		border-color: var(--color-visit);
-	}
-	@media (hover: none) {
-		/* Touch screens: the dot already sits in place, there is no hover. */
-		.dot {
-			translate: 0 0;
-			opacity: 1;
-		}
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.tile::before,

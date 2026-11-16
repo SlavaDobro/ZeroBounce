@@ -66,7 +66,7 @@
 				{@const on = !!selection[item.id]}
 				<li class="border-b border-paper/25">
 					<label
-						class="row flex cursor-pointer flex-wrap items-center gap-x-4 gap-y-1 py-5 sm:flex-nowrap sm:gap-6"
+						class="row relative flex cursor-pointer flex-wrap items-center gap-x-4 gap-y-1 py-5 sm:flex-nowrap sm:gap-6"
 					>
 						<input
 							type="checkbox"
@@ -118,7 +118,7 @@
 						>
 							{#each item.options! as option (option.id)}
 								<label
-									class="option cursor-pointer border border-paper/30 p-3 text-sm transition-colors has-[:checked]:border-paper has-[:checked]:bg-paper has-[:checked]:text-ink"
+									class="option relative cursor-pointer border border-paper/30 p-3 text-sm transition-colors has-[:checked]:border-paper has-[:checked]:bg-paper has-[:checked]:text-ink has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-visit"
 								>
 									<input
 										type="radio"
@@ -138,9 +138,27 @@
 				</li>
 			{/each}
 		</ul>
+		<!--
+			Phones: the total stays on screen above the contact bar while services are ticked,
+			and a tap scrolls to the full calculation.
+		-->
+		{#if any}
+			<a
+				href="#calc-total"
+				class="total-chip sticky bottom-[5.25rem] z-10 mt-6 flex items-center justify-between gap-4 rounded-full bg-paper px-5 py-3 text-ink shadow-[0_12px_32px_-12px_rgb(0_0_0/0.6)] lg:hidden"
+			>
+				<span class="flex items-center gap-2 text-sm whitespace-nowrap">
+					<span class="size-2 rounded-full bg-visit" aria-hidden="true"></span>
+					Итого{result.percent ? ` −${result.percent}%` : ''}
+				</span>
+				<span class="font-display text-lg font-light whitespace-nowrap tabular-nums">
+					{prefix}{rub(Math.round(total.current))}
+				</span>
+			</a>
+		{/if}
 	</fieldset>
 
-	<div class="lg:sticky lg:top-28 lg:self-start" aria-live="polite">
+	<div id="calc-total" class="scroll-mt-24 lg:sticky lg:top-28 lg:self-start" aria-live="polite">
 		{#if any}
 			<ul class="space-y-2 text-sm">
 				{#each result.lines as line (line.id)}
@@ -269,6 +287,20 @@
 		.fill,
 		.marker::after {
 			transition: none;
+		}
+	}
+	.total-chip {
+		animation: chip-in 0.4s var(--ease-settle) both;
+	}
+	@keyframes chip-in {
+		from {
+			opacity: 0;
+			translate: 0 1rem;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.total-chip {
+			animation: none;
 		}
 	}
 </style>

@@ -30,7 +30,7 @@
 				class="flex min-h-12 items-center justify-center gap-2 rounded-full bg-ink text-sm font-medium text-paper"
 				tabindex={scrolled ? 0 : -1}
 			>
-				<span class="size-2 rounded-full bg-visit" aria-hidden="true"></span>
+				<span class="bar-dot size-2 rounded-full bg-visit" aria-hidden="true"></span>
 				Оставить заявку
 			</a>
 		</div>
@@ -46,9 +46,29 @@
 	.bar.show {
 		translate: 0 0;
 	}
+	/* Phone in landscape: the screen is too short, the header button is enough. */
+	@media (max-height: 500px) {
+		.bar {
+			display: none;
+		}
+	}
+	/* When the bar arrives, the dot drops into the button. */
+	.bar.show .bar-dot {
+		animation: bar-drop 0.55s var(--ease-land) 0.25s both;
+	}
+	@keyframes bar-drop {
+		from {
+			opacity: 0;
+			scale: 4;
+			filter: blur(2px);
+		}
+	}
 	@media (prefers-reduced-motion: reduce) {
 		.bar {
 			transition: none;
+		}
+		.bar.show .bar-dot {
+			animation: none;
 		}
 	}
 </style>

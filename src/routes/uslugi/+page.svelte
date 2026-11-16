@@ -8,6 +8,7 @@
 	import { stages, systemStage } from '#lib/content/journey.ts';
 	import { serviceHref, servicesByStage } from '#lib/content/services.ts';
 	import { link } from '#lib/link.ts';
+	import { liveCenter } from '#lib/liveCenter.ts';
 
 	// Plain group names on top; the stage of the customer path explains what the group is for.
 	const groups = serviceGroups.map((g) => {
@@ -43,7 +44,7 @@
 				<p class="max-w-sm text-graphite">{group.text}</p>
 				<div class="max-w-[16rem] pt-2"><StageStrip stage={group.id} /></div>
 			</div>
-			<ul class="border-t border-ink/20">
+			<ul class="border-t border-ink/20" use:liveCenter={'.row'}>
 				{#each servicesByStage(group.id) as service (service.slug)}
 					<li class="border-b border-ink/20">
 						<a
@@ -81,6 +82,7 @@
 		transition: clip-path 0.35s var(--ease-settle);
 	}
 	.row:hover::before,
+	.row:global([data-live])::before,
 	.row:focus-visible::before {
 		clip-path: inset(0 0 0 0);
 	}

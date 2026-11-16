@@ -16,6 +16,31 @@
 	 */
 	const tilt = new Spring({ x: 0, y: 0 }, { stiffness: 0.08, damping: 0.35 });
 	let figure: HTMLElement | undefined = $state();
+	/**
+	 * Scroll position of the drawing on screen, -1 (just below) … 0 (centred) … 1 (gone above).
+	 * Scrolling turns the hatch bands in opposite directions and lifts the layers by depth —
+	 * the motion phones get instead of the pointer.
+	 */
+	let scroll = $state(0);
+
+	onMount(() => {
+		if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+		let frame = 0;
+		const measure = () => {
+			frame = 0;
+			const r = figure!.getBoundingClientRect();
+			const p = (innerHeight - r.top) / (innerHeight + r.height);
+			scroll = Math.max(-1, Math.min(1, p * 2 - 1));
+		};
+		const onScroll = () => (frame ||= requestAnimationFrame(measure));
+		measure();
+		addEventListener('scroll', onScroll, { passive: true });
+		return () => {
+			removeEventListener('scroll', onScroll);
+			cancelAnimationFrame(frame);
+		};
+	});
+
 	onMount(() => {
 		const fine = matchMedia('(pointer: fine) and (prefers-reduced-motion: no-preference)');
 		if (!fine.matches) return;
@@ -34,7 +59,8 @@
 		};
 	});
 	const shift = (depth: number) =>
-		`translate(${(tilt.current.x * depth).toFixed(2)}px, ${(tilt.current.y * depth).toFixed(2)}px)`;
+		`translate(${(tilt.current.x * depth).toFixed(2)}px, ${(tilt.current.y * depth - Math.max(0, scroll) * depth * 2.2).toFixed(2)}px)`;
+	const turn = (degrees: number) => `rotate(${(scroll * degrees).toFixed(2)}deg)`;
 </script>
 
 <figure class={['hero-target', className]} bind:this={figure}>
@@ -67,9 +93,23 @@
 			<!-- Centre lines, dash-dot as on drawings -->
 			<path class="axis" d="M260 4V516M4 260H516" />
 			<g class="hatch-bands">
-				<rect width="520" height="520" fill="url(#{id}-v)" mask="url(#{id}-outer)" />
+				<rect
+					class="spin"
+					width="520"
+					height="520"
+					fill="url(#{id}-v)"
+					mask="url(#{id}-outer)"
+					style:transform={turn(28)}
+				/>
 				<g style:transform={shift(10)}>
-					<rect width="520" height="520" fill="url(#{id}-d)" mask="url(#{id}-inner)" />
+					<rect
+						class="spin"
+						width="520"
+						height="520"
+						fill="url(#{id}-d)"
+						mask="url(#{id}-inner)"
+						style:transform={turn(-40)}
+					/>
 				</g>
 			</g>
 			<circle class="r1 ring" cx="260" cy="260" r="236" pathLength="1" />
@@ -105,6 +145,11 @@
 		stroke-width: 0.75;
 		stroke-dasharray: 18 4 2 4;
 		fill: none;
+	}
+	/* Hatch bands turn around the centre of the drawing. */
+	.spin {
+		transform-box: view-box;
+		transform-origin: 260px 260px;
 	}
 	.hatch-bands {
 		color: var(--color-ink);

@@ -83,7 +83,7 @@
 				type="checkbox"
 				name="consent"
 				required
-				class="mt-0.5 size-4 accent-[var(--color-visit)]"
+				class="mt-0.5 size-5 shrink-0 accent-[var(--color-visit)]"
 			/>
 			<span>
 				Согласен на обработку персональных данных в соответствии с

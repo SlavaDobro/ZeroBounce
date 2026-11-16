@@ -53,7 +53,11 @@
 
 <header class="sticky top-0 z-40 border-b border-ink/15 bg-paper/95 backdrop-blur-sm">
 	<Container class="flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
-		<a href={link('/')} class="shrink-0 py-2" aria-label="{site.name} — на главную">
+		<a
+			href={link('/')}
+			class="inline-flex min-h-11 shrink-0 items-center"
+			aria-label="{site.name} — на главную"
+		>
 			<Logo />
 		</a>
 
@@ -118,15 +122,8 @@
 				onclick={() => (open = !open)}
 			>
 				<span class="sr-only">{open ? 'Закрыть меню' : 'Открыть меню'}</span>
-				<svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-					<path
-						class="burger"
-						d={open ? 'M4 4l10 10M14 4L4 14' : 'M2 6h14M2 12h14'}
-						stroke="currentColor"
-						stroke-width="1.5"
-						stroke-linecap="round"
-					/>
-				</svg>
+				<!-- Two lines that turn into a cross -->
+				<span class="burger" class:open aria-hidden="true"><span></span><span></span></span>
 			</button>
 		</div>
 	</Container>
@@ -285,6 +282,38 @@
 	.chevron {
 		transition: rotate 0.25s var(--ease-settle);
 	}
+	.burger {
+		position: relative;
+		width: 18px;
+		height: 14px;
+	}
+	.burger span {
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 1.5px;
+		border-radius: 1px;
+		background: currentColor;
+		transition:
+			top 0.25s var(--ease-settle),
+			rotate 0.3s var(--ease-settle) 0.1s;
+	}
+	.burger span:first-child {
+		top: 3px;
+	}
+	.burger span:last-child {
+		top: 9.5px;
+	}
+	/* Lines first meet in the middle, then turn: the cross is drawn, not swapped. */
+	.burger.open span {
+		top: 6.25px;
+	}
+	.burger.open span:first-child {
+		rotate: 45deg;
+	}
+	.burger.open span:last-child {
+		rotate: -45deg;
+	}
 	.is-open .chevron {
 		rotate: 180deg;
 	}
@@ -352,7 +381,8 @@
 			animation: none;
 		}
 		.nav-link::after,
-		.nav-link::before {
+		.nav-link::before,
+		.burger span {
 			transition: none;
 		}
 	}

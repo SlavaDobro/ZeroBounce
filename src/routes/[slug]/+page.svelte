@@ -11,6 +11,7 @@
 	import { site } from '#lib/config/site.ts';
 	import { serviceHref, servicesByStage } from '#lib/content/services.ts';
 	import { link } from '#lib/link.ts';
+	import { liveCenter } from '#lib/liveCenter.ts';
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
@@ -25,7 +26,7 @@
 <section class="pt-10 pb-16 lg:pt-14 lg:pb-24">
 	<Container>
 		<nav aria-label="Хлебные крошки" class="text-sm text-graphite">
-			<a class="link" href={link('/uslugi/')}>Услуги</a>
+			<a class="link -my-2 inline-block py-2" href={link('/uslugi/')}>Услуги</a>
 			<span aria-hidden="true">/</span>
 			<span>{stageTitle}</span>
 		</nav>
@@ -35,7 +36,7 @@
 			<div>
 				{#if service.tagline}<p class="text-lg text-graphite">{service.tagline}</p>{/if}
 				<h1 class="mt-3 text-[clamp(2rem,4.6vw,3.6rem)] leading-[1.08]">{service.title}</h1>
-				<p class="mt-8 max-w-2xl text-lg">{service.lead}</p>
+				<p class="mt-6 max-w-2xl text-base sm:mt-8 sm:text-lg">{service.lead}</p>
 				<div class="mt-10 flex flex-wrap gap-3">
 					<Button href={link(auditHref)}>Обсудить задачу</Button>
 					<Button href={site.telegram} variant="outline">Написать в Telegram</Button>
@@ -50,10 +51,11 @@
 	<section use:inview class="draw-rule py-16 lg:py-24" aria-labelledby="inc-title">
 		<Container class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
 			<h2 id="inc-title" class="text-2xl lg:text-3xl">Что входит</h2>
-			<ul class="grid border-t border-ink/20 sm:grid-cols-2">
+			<ul class="grid border-t border-ink/20 sm:grid-cols-2" use:liveCenter={'.inc'}>
 				{#each service.includes as item (item)}
-					<li class="flex gap-4 border-b border-ink/20 py-4 sm:odd:pr-6 sm:even:pl-6">
-						<span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-ink" aria-hidden="true"></span>
+					<li class="inc flex gap-4 border-b border-ink/20 py-4 sm:odd:pr-6 sm:even:pl-6">
+						<span class="bullet mt-2.5 size-1.5 shrink-0 rounded-full bg-ink" aria-hidden="true"
+						></span>
 						<span>{item}</span>
 					</li>
 				{/each}
@@ -150,3 +152,16 @@
 {/if}
 
 <CtaBand />
+
+<style>
+	/* Phones: the item in the middle of the screen gets the violet dot. */
+	.bullet {
+		transition:
+			background-color 0.3s,
+			scale 0.35s var(--ease-settle);
+	}
+	.inc:global([data-live]) .bullet {
+		background: var(--color-visit);
+		scale: 1.8;
+	}
+</style>

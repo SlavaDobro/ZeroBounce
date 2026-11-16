@@ -216,7 +216,7 @@
 						<li>
 							<a
 								href={link(serviceHref(service))}
-								class="inline-flex rounded-full border border-ink/25 px-3.5 py-1.5 text-sm transition-colors hover:border-visit hover:text-visit"
+								class="inline-flex min-h-11 items-center rounded-full border border-ink/25 px-4 text-sm transition-colors hover:border-visit hover:text-visit"
 								>{service.navTitle}</a
 							>
 						</li>
@@ -238,6 +238,15 @@
 		height: auto;
 		overflow: visible;
 		color: var(--color-ink);
+	}
+	/*
+	 * Phones and tablets: the plan sticks above the stage texts, so it may take at most
+	 * about a third of the screen — otherwise in landscape it would cover the texts.
+	 */
+	@media (max-width: 1023px) {
+		.plan {
+			max-height: 32vh;
+		}
 	}
 	.room {
 		fill: transparent;

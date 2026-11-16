@@ -228,7 +228,7 @@
 			<h2 id="founder-title" class="mt-2 text-3xl lg:text-4xl">{founder.name}</h2>
 			<p class="mt-6 text-lg">{founder.text}</p>
 			<p class="mt-6 text-graphite">{founder.certificate.text}</p>
-			<a class="link mt-8 inline-block" href={link('/team/')}>Команда Zero Bounce</a>
+			<a class="link mt-6 inline-block py-2" href={link('/team/')}>Команда Zero Bounce</a>
 		</div>
 	</Container>
 </section>

@@ -18,7 +18,7 @@
 			Оставьте заявку — проведём аудит и предложим конкретный план роста.
 		</p>
 		<div class="mt-10 flex flex-wrap gap-3">
-			<Button href={link(auditHref)}>Запросить аудит</Button>
+			<Button href={link(auditHref)}>Оставить заявку</Button>
 			<Button href={site.telegram} variant="outline">Telegram {site.telegramHandle}</Button>
 		</div>
 	</Container>
